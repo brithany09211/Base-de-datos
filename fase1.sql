@@ -16,37 +16,15 @@ drop table if exists Hostessa;
 drop table if exists Pilot;
 drop table if exists Passatger;
 drop table if exists Vol;
-
+drop table if exists Volar;
 
 create table Companyia (
     nom varchar (40) not null,
     IATA varchar (6) not null,
-    CODE3 varchar (6) not null,
-    ICAO varchar (6) not null,
+    CODE3 varchar (6),
+    ICAO varchar (6),
     pais varchar (40) not null,
     filial_de varchar (40)
-);
-
-create table Avio (
-    num_serie varchar (30) not null,
-    tipus varchar (10)not null,
-    fabricant varchar (20)not null,
-    any_fabricacio year,
-    companyia varchar (40) not null
-);
-
-create table Aeroport (
-    codi varchar (4) not null,
-    pais varchar (40) not null,
-    ciutat varchar (40) not null,
-    IATA varchar (4),
-    nom varchar (55) not null,
-    any_construccio year,
-);
-
-create table Mostrador (
-    numero smallint unsigned,
-    codi_aeroport varchar (4) not null
 );
 
 create table Personal (
@@ -58,7 +36,7 @@ create table Personal (
 );
 
 create table Hostessa (
-  num_empleat int unsigned not null,  
+  num_empleat int unsigned not null  
 ); 
 
 create table Pilot (
@@ -66,13 +44,37 @@ create table Pilot (
   hores_vol smallint
 );
 
+create table Avio (
+    num_serie varchar (30) not null,
+    tipus varchar (10)not null,
+    fabricant varchar (20)not null,
+    any_fabricacio year,
+    companyia varchar (40) not null
+);
+
 create table Passatger (
   passaport varchar(20) not null,
   nom varchar (30) not null,
   cognom varchar (50),
+  adreca varchar (70),
+  telefon integer (9),
   email varchar (40),
-  data_naixement date,
+  data_naix date,
   genere char(1)
+);
+
+create table Aeroport (
+    codi varchar (4) not null,
+    pais varchar (40) not null,
+    ciutat varchar (40) not null,
+    IATA varchar (4),
+    nom varchar (55) not null,
+    any_construccio year
+);
+
+create table Mostrador (
+    numero smallint unsigned,
+    codi_aeroport varchar (4) not null
 );
 
 create table Vol (
@@ -85,4 +87,10 @@ create table Vol (
   hostessa int unsigned not null,  
   pilot int unsigned not null,
   descripcio varchar(100)
+);
+
+create table Volar (
+  passatger varchar(20) not null,
+  vol varchar (9) not null,
+  seient varchar (5)
 );
