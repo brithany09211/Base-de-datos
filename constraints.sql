@@ -115,8 +115,18 @@ add constraint ch_vol check (descripcio='ON-TIME' or descripcio='DELAYED' or des
 alter table pilot
 add constraint ch_hores_Vol check (hores_Vol >= 400);
 
-
 -- En un vol un seient no pot estar ocupat per més d’una persona.
+alter table volar
+add constraint u_volar unique (seient);
+
 -- La durada dels vols ha de ser un valor entre 10 i 1200 (és a dir, entre 10 minuts i 20 hores)
+alter table vol
+add constraint ch_durada check (durada >= 10 and durada <= 1200);
+
 -- El sou no pot ser negatiu. A més el sou mínim ha de ser de 20.000 dolars.
--- El codi IATA dels aeroports no es pot repetir
+alter table personal
+add constraint ch_sou check (sou >= 20000);
+
+-- El codi IATA dels aeroports no es pot repetir.
+alter table aeroport
+add constraint u_IATA unique (IATA);
