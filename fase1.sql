@@ -1,96 +1,134 @@
 /* *****************************************************
   INSTITUT TIC de Barcelona
-    CFGS DAM1 A
+    CFGS Desenvolupament d'Aplicacions Multiplataforma 
+    CFGS Desenvolupament d'Aplicacions Web 
     Mòdul: 0484 Bases de dades. 
-    AUTORS: Brithany Silva i Alba Melendres
-    DATA: 12/12/2024
+    AUTORES: Brithany Silva i Alba Melendres
+    DATA: 9 de Gener 2025
 ****************************************************** */
 
--- Creació de les taules
-drop table if exists Companyia;
-drop table if exists Avio;
-drop table if exists Aeroport;
+-- ------------------------------------------------------
+-- Base de dades de vols
+-- ------------------------------------------------------
+
+-- ------------------------------------------------------
+--  Eliminació de taules
+-- ------------------------------------------------------
+drop table if exists volar;
+drop table if exists vol;
+drop table if exists pilot;
+drop table if exists hostessa;
+drop table if exists personal;
+drop table if exists passatger;
 drop table if exists Mostrador;
-drop table if exists Personal;
-drop table if exists Hostessa;
-drop table if exists Pilot;
-drop table if exists Passatger;
-drop table if exists Vol;
-drop table if exists Volar;
+drop table if exists aeroport;
+drop table if exists avio;
+drop table if exists companyia;
 
-create table Companyia (
-    nom varchar (40) not null,
-    IATA varchar (6) not null,
-    CODE3 varchar (6),
-    ICAO varchar (6),
-    pais varchar (40) not null,
-    filial_de varchar (40)
-);
+-- ------------------------------------------------------
+--  Creació de taula companyia
+-- ------------------------------------------------------
 
-create table Personal (
-    num_empleat int unsigned not null, 
-    nom varchar (25) not null,
-    cognom varchar (35) not null,
-    passaport varchar (20) not null,
-    sou float unsigned not null
-);
+CREATE TABLE companyia (	
+	nom Varchar(40) not null, 
+	IATA CHAR(6) not null, 
+	CODE3 CHAR(6), 
+	ICAO CHAR(6), 
+	pais Varchar(40) NOT NULL, 
+	filial_de Varchar(40)
+) CHARACTER SET utf8mb4;
+-- ------------------------------------------------------
+--  Creació de la taula  hostessa
+-- ------------------------------------------------------
 
-create table Hostessa (
-  num_empleat int unsigned not null  
-); 
+CREATE TABLE hostessa ( 
+	num_empleat int
+) CHARACTER SET utf8mb4;
+-- ------------------------------------------------------
+--  Creació de la taula  avio
+-- ------------------------------------------------------
 
-create table Pilot (
-  num_empleat int unsigned not null,
-  hores_vol smallint
-);
+CREATE TABLE avio (	
+	num_serie CHAR(30), 
+	tipus Varchar(10) not null, 
+	fabricant Varchar(20) not null, 
+	any_fabricacio year, 
+	companyia Varchar(40) not null
+)  CHARACTER SET utf8mb4;
+-- ------------------------------------------------------
+--  Creació de la taula  aeroport
+-- ------------------------------------------------------
 
-create table Avio (
-    num_serie varchar (30) not null,
-    tipus varchar (10)not null,
-    fabricant varchar (20)not null,
-    any_fabricacio year,
-    companyia varchar (40) not null
-);
+CREATE TABLE aeroport (
+	codi CHAR(4), 
+	pais Varchar(40) not null, 
+	ciutat Varchar(40) not null, 
+	IATA CHAR(4), 
+	nom Varchar(55) not null, 
+	any_construccio Year
+) CHARACTER SET utf8mb4;
+-- ------------------------------------------------------
+--  Creació de la taula  Mostrador
+-- ------------------------------------------------------
 
-create table Passatger (
-  passaport varchar(20) not null,
-  nom varchar (30) not null,
-  cognom varchar (50),
-  adreca varchar (70),
-  telefon integer (9),
-  email varchar (40),
-  data_naix date,
-  genere char(1)
-);
+CREATE TABLE Mostrador (
+	numero smallint, 
+	codi_aeroport CHAR(4)
+) CHARACTER SET utf8mb4;
+-- ------------------------------------------------------
+--  Creació de la taula  personal
+-- ------------------------------------------------------
 
-create table Aeroport (
-    codi varchar (4) not null,
-    pais varchar (40) not null,
-    ciutat varchar (40) not null,
-    IATA varchar (4),
-    nom varchar (55) not null,
-    any_construccio year
-);
+CREATE TABLE personal (
+    num_empleat INT,
+    nom VARCHAR(25) NOT NULL,
+    cognom VARCHAR(35) NOT NULL,
+    passaport CHAR(20) NOT NULL,
+    sou FLOAT NOT NULL
+)  CHARACTER SET utf8mb4;
+-- ------------------------------------------------------
+--  Creació de la taula  vol
+-- ------------------------------------------------------
 
-create table Mostrador (
-    numero smallint unsigned,
-    codi_aeroport varchar (4) not null
-);
+CREATE TABLE vol (
+	codi CHAR(9), 
+	aeroport_desti CHAR(4) not null, 
+	data DATE not null, 
+	durada smallint not null, 
+	aeroport_origen CHAR(4) not null, 
+	avio CHAR(30) not null, 
+	hostessa int not null, 
+    pilot int not null, 
+	descripcio Varchar(30) not null
+) CHARACTER SET utf8mb4;
+-- ------------------------------------------------------
+--  Creació de la taula  passatger
+-- ------------------------------------------------------
 
-create table Vol (
-  codi char(9) not null,
-  aeroport_desti varchar (4) not null,
-  data date not null,
-  durada time not null,
-  aeroport_origen varchar (4) not null,
-  avio varchar (30) not null,
-  hostessa int unsigned not null,  
-  pilot int unsigned not null,
-  descripcio varchar(100)
-);
+CREATE TABLE passatger (
+	passaport CHAR(20), 
+	nom Varchar(30) not null, 
+	cognom Varchar(50), 
+	adreca Varchar(70), 
+	telefon Varchar(9), 
+	email Varchar(40), 
+	data_naix DATE, 
+	genere CHAR(1)
+)  CHARACTER SET utf8mb4;
+-- ------------------------------------------------------
+--  Creació de la taula  pilot
+-- ------------------------------------------------------
 
-create table Volar (
-  passatger varchar(20) not null,
-  vol varchar (9) not null,
-  seient varchar (5)
-);
+CREATE TABLE pilot (
+	num_empleat int, 
+	hores_Vol smallint
+)CHARACTER SET utf8mb4;
+
+-- ------------------------------------------------------
+--  Creació de la taula  volar
+-- ------------------------------------------------------  
+CREATE TABLE volar(
+	passatger char(20),
+	vol char(9),
+	seient tinyint
+) CHARACTER SET utf8mb4;
